@@ -67,8 +67,7 @@ This gathers trajectories using an expert Meta-World policy and saves them in `.
 python -m scripts.collect_data \
   --env-name push-v3 \
   --camera-name gripperPOV \
-  --episodes 500 \
-  --max-steps 100 \
+  --episodes 500 \ 
   --output-path data/metaworld_push_bc.npz
 ```
 
@@ -79,10 +78,9 @@ Train a small vision-language diffusion policy on your collected dataset.
 ```
 python -m scripts.train \
   --dataset-path data/metaworld_push_bc.npz \
-  --epochs 50 \
-  --batch-size 64 \
-  --save-path checkpoints/model.pt \
-  --device cuda
+  --epochs 50 \ 
+  --save-path checkpoints/model.pt \ 
+  --new-model
 ```
 
 ## Test your model in sim
@@ -92,11 +90,8 @@ Run the trained VLA inside the Meta-World MT1 environment. Make sure the camera 
 ```
 python -m scripts.test \
   --checkpoint checkpoints/model.pt \
-  --env-name push-v3 \
   --episodes 5 \
-  --max-steps 150 \
-  --instruction "push the object to the goal" \
-  --device cpu \
+  --instruction "push the object to the goal" \ 
   --save-video \
   --video-dir videos \
   --camera-name gripperPOV
