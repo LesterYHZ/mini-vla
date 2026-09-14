@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument(
         "--seed",
         type=int,
-        default=42,
+        default=114514,
         help="Random seed for the environment",
     )
     parser.add_argument(

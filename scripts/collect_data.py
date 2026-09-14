@@ -14,7 +14,7 @@ def parse_args():
     parser.add_argument("--env-name", type=str, default="push-v3")
     parser.add_argument("--camera-name", type=str, default="topview",
                         help="Meta-World camera: corner, corner2, corner3, corner4, topview, behindGripper, gripperPOV")
-    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--seed", type=int, default=114514)
     parser.add_argument("--episodes", type=int, default=50)
     parser.add_argument("--max-steps", type=int, default=150)
     parser.add_argument("--output-path", type=str, default="data/metaworld_bc.npz")

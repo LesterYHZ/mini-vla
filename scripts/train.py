@@ -54,7 +54,7 @@ def parse_args():
                         default="checkpoints/model.pt")
     parser.add_argument("--device", type=str, default="cuda",
                         help="'cuda' or 'cpu'")
-    parser.add_argument("--new-model", type=bool, default=False,
+    parser.add_argument("--new-model", action="store_true",
                         help="If set, create a new model instead of loading a checkpoint")
     return parser.parse_args()
 
@@ -71,15 +71,28 @@ def main():
 
     if not args.new_model:
         print(f"[train] Loading checkpoint from {args.save_path}")
-        ckpt = torch.load(args.save_path, map_location=device)
-        model = VLADiffusionPolicy(
-            vocab_size=ckpt["vocab_size"],
-            state_dim=ckpt["state_dim"],
-            action_dim=ckpt["action_dim"],
-            d_model=ckpt["d_model"],
-            diffusion_T=ckpt["diffusion_T"]
-        ).to(device)
-        model.load_state_dict(ckpt["model_state_dict"])
+        try:
+            ckpt = torch.load(args.save_path, map_location=device)
+        except FileNotFoundError:
+            print(f"[train] Checkpoint not found at {args.save_path}. Creating new model.")
+            ckpt = None
+        if ckpt is not None:
+            model = VLADiffusionPolicy(
+                vocab_size=vocab_size,
+                state_dim=state_dim,
+                action_dim=action_dim,
+                d_model=args.d_model,
+                diffusion_T=args.diffusion_T
+            ).to(device)
+            model.load_state_dict(ckpt["model_state_dict"])
+        else:
+            model = VLADiffusionPolicy(
+                vocab_size=vocab_size,
+                state_dim=state_dim,
+                action_dim=action_dim,
+                d_model=args.d_model,
+                diffusion_T=args.diffusion_T
+            ).to(device)
     else:
         print(f"[train] Creating new model")
         model = VLADiffusionPolicy(
