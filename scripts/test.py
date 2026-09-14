@@ -67,6 +67,12 @@ def parse_args():
         default="videos",
         help="Directory to save videos (if --save-video is set)",
     )
+    parser.add_argument(
+        "--camera-name",
+        type=str,
+        default="topview",
+        help="Meta-World camera: corner, corner2, corner3, corner4, topview, behindGripper, gripperPOV",
+    )
 
     return parser.parse_args()
 
@@ -116,7 +122,7 @@ def main():
         env_name=args.env_name,
         seed=args.seed,
         render_mode="rgb_array",
-        camera_name="topview",
+        camera_name=args.camera_name,
     )
 
     print(f"[test] Meta-World MT1 env: {args.env_name}")
