@@ -49,7 +49,7 @@ conda activate mini-vla
 Clone mini-VLA project
 
 ```
-git clone https://github.com/keivalya/mini-vla.git
+git clone https://github.com/LesterYHZ/mini-vla.git
 cd mini-vla
 ```
 
@@ -66,8 +66,8 @@ This gathers trajectories using an expert Meta-World policy and saves them in `.
 ```
 python -m scripts.collect_data \
   --env-name push-v3 \
-  --camera-name corner \
-  --episodes 100 \
+  --camera-name gripperPOV \
+  --episodes 500 \
   --max-steps 100 \
   --output-path data/metaworld_push_bc.npz
 ```
@@ -78,16 +78,16 @@ Train a small vision-language diffusion policy on your collected dataset.
 
 ```
 python -m scripts.train \
-  --dataset-path data/push_v3.npz \
+  --dataset-path data/metaworld_push_bc.npz \
   --epochs 50 \
   --batch-size 64 \
   --save-path checkpoints/model.pt \
-  --device cpu
+  --device cuda
 ```
 
 ## Test your model in sim
 
-Run the trained VLA inside the Meta-World MT1 environment.
+Run the trained VLA inside the Meta-World MT1 environment. Make sure the camera name is the same as in the data collection phase. 
 
 ```
 python -m scripts.test \
@@ -98,7 +98,8 @@ python -m scripts.test \
   --instruction "push the object to the goal" \
   --device cpu \
   --save-video \
-  --video-dir videos
+  --video-dir videos \
+  --camera-name gripperPOV
 ```
 
 ## Inference (coming soon)
