@@ -166,7 +166,7 @@ def main():
             video_path = os.path.join(args.video_dir, f"{args.env_name}_ep{ep+1:03d}.mp4")
             with imageio.get_writer(video_path, fps=20) as writer:
                 for f in frames:
-                    writer.append_data(f)
+                    writer.append_data(np.flipud(f).copy())
             print(f"[test] Saved video to {video_path}")
 
     env.close()
